@@ -1,0 +1,33 @@
+baseURL = "https://markdownvault.com/"
+languageCode = "en-us"
+title = "Markdown Vault"
+theme = "vex-hugo"
+
+[params]
+    description = "Markdown Vault is awesome."
+
+[params.navbar]
+    logo = "Markdown Vault"
+    [[params.navbar.menu]]
+      link = "#"
+      text = "HOME"
+    [[params.navbar.menu]]
+      link = "#about"
+      text = "ABOUT"
+    [[params.navbar.menu]]
+      link = "#service"
+      text = "SERVICES"
+    [[params.navbar.menu]]
+      link = "#contact"
+      text = "CONTACT"
+
+  # Header
+[params.header]
+    title = "Markdown Vault. Secure your notes."
+    text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas, modi fugit in veritatis labore perferendis. Minima hic at, nostrum nihil!"
+    [params.header.image]
+      path = "images/markdown.svg"
+      alt = "Markdown"
+    [params.header.button]
+      link = "#about"
+      text = "Learn More"
