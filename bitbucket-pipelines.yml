@@ -16,5 +16,6 @@ pipelines:
             - pip install awscli
             - curl -L https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz > hugo.tar.gz && tar xf hugo.tar.gz && mv hugo /usr/local/bin/
             - cd /opt/atlassian/pipelines/agent/build
+            - git submodule update --init --recursive
             - hugo
             - aws s3 sync --delete ./public $S3_BUCKET
