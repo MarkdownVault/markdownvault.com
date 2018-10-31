@@ -1,0 +1,20 @@
+# This is a sample build configuration for Python.
+# Check our guides at https://confluence.atlassian.com/x/x4UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: python:3.5.1
+
+pipelines:
+  branches:
+    # Master branch deployment to live - no drafts
+    master:
+      - step:
+          name: HUGO Build & Deploy
+          deployment: production   # set to test, staging or production
+          script:
+            - pip install awscli
+            - curl -L https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz > hugo.tar.gz && tar xf hugo.tar.gz && mv hugo /usr/local/bin/
+            - cd /opt/atlassian/pipelines/agent/build
+            - hugo
+            - aws s3 sync --delete ./public $S3_BUCKET
