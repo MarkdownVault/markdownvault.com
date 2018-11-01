@@ -25,12 +25,12 @@ pipelines:
           deployment: production   # set to test, staging or production
           script:
             - cd /opt/atlassian/pipelines/agent/build
-            - git submodule update --init --recursive
-            - hugo
-            - tree ./public
+            - /usr/local/git submodule update --init --recursive
+            - /usr/local/hugo
+            - /usr/local/tree ./public
 
       - step:
           name: Deploy to S3
           image: atlassian/pipelines-awscli
           script:
-            - aws s3 sync --delete ./public $S3_BUCKET
+            - /usr/local/aws s3 sync --delete ./public $S3_BUCKET
