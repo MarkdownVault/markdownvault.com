@@ -11,7 +11,6 @@ pipelines:
     master:
       - step:
           name: Get Hugo
-          deployment: production
           script:
             - apt-get update && apt-get install hugo && apt-get install tree
 
@@ -23,10 +22,9 @@ pipelines:
             - git submodule update --init --recursive
             - hugo
             - tree ./public
-            
+
       - step:
           name: Deploy to S3
-          deployment: production
           image: atlassian/pipelines-awscli
           script:
             - aws s3 sync --delete ./public $S3_BUCKET
