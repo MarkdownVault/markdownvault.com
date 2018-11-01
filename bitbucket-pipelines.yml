@@ -10,7 +10,8 @@ pipelines:
     # Master branch deployment to live - no drafts
     master:
       - step:
-          name: Install Base Tools
+          deployment: production   # set to test, staging or production
+          name: Build Hugo Web Site.
           script:
             - apk add --no-cache python3
             - apk add --no-cache hugo
@@ -20,17 +21,9 @@ pipelines:
             - pip3 install --upgrade pip setuptools
             - pip3 install awscli
 
-      - step:
-          name: HUGO Build
-          deployment: production   # set to test, staging or production
-          script:
             - cd /opt/atlassian/pipelines/agent/build
-            - /usr/local/git submodule update --init --recursive
-            - /usr/local/hugo
-            - /usr/local/tree ./public
+            - git submodule update --init --recursive
+            - hugo
+            - tree ./public
 
-      - step:
-          name: Deploy to S3
-          image: atlassian/pipelines-awscli
-          script:
-            - /usr/local/aws s3 sync --delete ./public $S3_BUCKET
+            - aws s3 sync --delete ./public $S3_BUCKET
