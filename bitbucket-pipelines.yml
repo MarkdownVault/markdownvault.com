@@ -20,10 +20,11 @@ pipelines:
             - python3 -m ensurepip
             - pip3 install --upgrade pip setuptools
             - pip3 install awscli
-
+            # CD in to the build location
             - cd /opt/atlassian/pipelines/agent/build
             - git submodule update --init --recursive
             - hugo
+            # For my own sanity, let's see what Hugo built here.
             - tree ./public
-
-            - aws s3 sync --delete --web ./public $S3_BUCKET
+            # Deploy to S3. We *should* get ./public in s3, and clean up the remote.
+            - aws s3 sync --delete ./public $S3_BUCKET
