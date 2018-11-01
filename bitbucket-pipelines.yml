@@ -26,4 +26,4 @@ pipelines:
             - hugo
             - tree ./public
 
-            - aws s3 sync --delete ./public $S3_BUCKET
+            - aws s3 sync --delete --web ./public $S3_BUCKET
