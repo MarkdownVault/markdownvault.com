@@ -3,19 +3,30 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: python:3.5.1
+image: atlassian/default-image:2
 
 pipelines:
   branches:
     # Master branch deployment to live - no drafts
     master:
       - step:
-          name: HUGO Build & Deploy
+          name: Get Hugo
+          deployment: production
+          script:
+            - apt-get update && apt-get install hugo && apt-get install tree
+
+      - step:
+          name: HUGO Build
           deployment: production   # set to test, staging or production
           script:
-            - pip install awscli
-            - curl -L https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz > hugo.tar.gz && tar xf hugo.tar.gz && mv hugo /usr/local/bin/
             - cd /opt/atlassian/pipelines/agent/build
             - git submodule update --init --recursive
             - hugo
+            - tree ./public
+            
+      - step:
+          name: Deploy to S3
+          deployment: production
+          image: atlassian/pipelines-awscli
+          script:
             - aws s3 sync --delete ./public $S3_BUCKET
