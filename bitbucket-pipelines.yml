@@ -3,16 +3,22 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: atlassian/default-image:2
+image: alpine
 
 pipelines:
   branches:
     # Master branch deployment to live - no drafts
     master:
       - step:
-          name: Get Hugo
+          name: Install Base Tools
           script:
-            - apt-get update && apt-get install hugo && apt-get install tree
+            - apk add --no-cache python3
+            - apk add --no-cache hugo
+            - apk add --no-cache tree
+            - apk add --no-cache git
+            - python3 -m ensurepip
+            - pip3 install --upgrade pip setuptools
+            - pip3 install awscli
 
       - step:
           name: HUGO Build
