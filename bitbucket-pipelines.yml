@@ -27,4 +27,4 @@ pipelines:
             # For my own sanity, let's see what Hugo built here.
             - tree ./public
             # Deploy to S3. We *should* get ./public in s3, and clean up the remote.
-            - aws s3 sync --delete ./public $S3_BUCKET
+            - aws s3 sync --acl public-read --delete ./public $S3_BUCKET
